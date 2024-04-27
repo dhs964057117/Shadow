@@ -208,14 +208,21 @@ private class PluginManifestBuilder(val manifestMap: ManifestMap) {
         val screenOrientation = makeResIdLiteral(AndroidManifestKeys.screenOrientation, "-1") {
             it
         }
-
+        val actions = componentMap[AndroidManifestKeys.action] as List<String>?
+        val actionsLiteral =
+            actions?.joinToString(
+                prefix = "new String[]{\"",
+                separator = "\", \"",
+                postfix = "\"}"
+            ) ?: "null"
         return "new com.tencent.shadow.core.runtime.PluginManifest" +
                 ".ActivityInfo(" +
                 "\"${componentMap[AndroidManifestKeys.name]}\", " +
                 "$themeLiteral ," +
                 "$configChangesLiteral ," +
                 "$softInputModeLiteral ," +
-                screenOrientation +
+                screenOrientation + "," +
+                actionsLiteral +
                 ")"
     }
 

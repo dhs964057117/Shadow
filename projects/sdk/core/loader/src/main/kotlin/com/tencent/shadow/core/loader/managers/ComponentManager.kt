@@ -27,6 +27,7 @@ import com.tencent.shadow.coding.java_build_config.BuildConfig
 import com.tencent.shadow.core.load_parameters.LoadParameters
 import com.tencent.shadow.core.loader.infos.ContainerProviderInfo
 import com.tencent.shadow.core.runtime.PluginManifest
+import com.tencent.shadow.core.runtime.PluginManifest.ActivityInfo
 import com.tencent.shadow.core.runtime.ShadowContext
 import com.tencent.shadow.core.runtime.ShadowContext.PluginComponentLauncher
 import com.tencent.shadow.core.runtime.container.DelegateProvider.LOADER_VERSION_KEY
@@ -65,7 +66,7 @@ abstract class ComponentManager : PluginComponentLauncher {
         pluginIntent: Intent,
         option: Bundle?
     ): Boolean {
-        return if (pluginIntent.isPluginComponent()) {
+        return if (pluginIntent.isPluginComponent(true)) {
             shadowContext.superStartActivity(pluginIntent.toActivityContainerIntent(), option)
             true
         } else {
@@ -81,7 +82,7 @@ abstract class ComponentManager : PluginComponentLauncher {
         option: Bundle?,
         callingActivity: ComponentName
     ): Boolean {
-        return if (pluginIntent.isPluginComponent()) {
+        return if (pluginIntent.isPluginComponent(true)) {
             val containerIntent = pluginIntent.toActivityContainerIntent()
             containerIntent.putExtra(CM_CALLING_ACTIVITY_KEY, callingActivity)
             delegator.startActivityForResult(containerIntent, requestCode, option)
@@ -245,10 +246,31 @@ abstract class ComponentManager : PluginComponentLauncher {
         mPluginContentProviderManager = pluginContentProviderManager
     }
 
-    private fun Intent.isPluginComponent(): Boolean {
+    private fun Intent.isPluginComponent(isActivity: Boolean = false): Boolean {
+        if (isActivity && !action.isNullOrEmpty() && component != null) {
+            component = findComponent(action)
+        }
         val component = component ?: return false
         val className = component.className
         return packageNameMap.containsKey(className)
+    }
+
+    private fun findComponent(action: String?): ComponentName? {
+        action ?: return null
+        return pluginActivityInfoMap.filter {
+            !it.value.actions.isNullOrEmpty() && it.value.actions.contains(
+                action
+            )
+        }.keys.firstOrNull()
+    }
+
+    private fun findActivityInfo(action: String?): ActivityInfo? {
+        action ?: return null
+        return pluginActivityInfoMap.values.find {
+            !it.actions.isNullOrEmpty() && it.actions.contains(
+                action
+            )
+        }
     }
 
     /**
@@ -256,7 +278,7 @@ abstract class ComponentManager : PluginComponentLauncher {
      */
     private fun Intent.toActivityContainerIntent(): Intent {
         val bundleForPluginLoader = Bundle()
-        val pluginActivityInfo = pluginActivityInfoMap[component]!!
+        val pluginActivityInfo = findActivityInfo(action) ?: pluginActivityInfoMap[component]!!
         bundleForPluginLoader.putParcelable(CM_ACTIVITY_INFO_KEY, pluginActivityInfo)
         return toContainerIntent(bundleForPluginLoader)
     }

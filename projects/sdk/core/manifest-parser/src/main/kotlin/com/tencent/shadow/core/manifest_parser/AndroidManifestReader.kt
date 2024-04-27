@@ -118,6 +118,10 @@ class AndroidManifestReader {
         ).forEach { attributeKey ->
             activityMap.putAttributeIfNotNull(element, attributeKey)
         }
+        val activityActions = parseReceiverActions(element)
+        if (activityActions.isNotEmpty()) {
+            activityMap[AndroidManifestKeys.action] = activityActions
+        }
         return activityMap
     }
 
