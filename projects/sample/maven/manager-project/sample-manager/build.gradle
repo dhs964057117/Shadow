@@ -1,7 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 29
+    namespace "com.tencent.shadow.sample.manager"
+    compileSdkVersion 34
     defaultConfig {
         applicationId "com.tencent.shadow.sample.manager"
         minSdkVersion 16

@@ -82,6 +82,7 @@ public interface PluginManifest {
             this.configChanges = configChanges;
             this.softInputMode = softInputMode;
             this.screenOrientation = screenOrientation;
+
         }
 
         protected ActivityInfo(Parcel in) {

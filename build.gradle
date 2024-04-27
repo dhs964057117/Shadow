@@ -20,6 +20,7 @@ buildscript {
             google()
             mavenCentral()
         }
+        maven { url 'https://raw.github.com/dhs964057117/maven-repository' }
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$build_gradle_version"

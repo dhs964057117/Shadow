@@ -1,7 +1,8 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 29
+    namespace "com.tencent.shadow.sample.introduce_shadow_lib"
+    compileSdkVersion 34
 
 
     defaultConfig {

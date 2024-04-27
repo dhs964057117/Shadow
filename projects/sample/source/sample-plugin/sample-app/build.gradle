@@ -20,6 +20,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.tencent.shadow.plugin'
 
 android {
+    namespace "com.tencent.shadow.sample.plugin.app.lib"
     compileSdkVersion project.COMPILE_SDK_VERSION
 
     defaultConfig {
@@ -77,13 +78,13 @@ def createDuplicateApkTask(buildType) {
     def apkDir = file("${getBuildDir()}/outputs/apk/plugin/$buildType")
 
     return tasks.create("duplicatePlugin${buildType.capitalize()}ApkTask", Copy) {
-        group = 'build'
-        description = "复制一个sample-app-plugin-${buildType}.apk用于测试目的"
-        from(apkDir) {
-            include("sample-app-plugin-${buildType}.apk")
-            rename { "sample-app-plugin-${buildType}2.apk" }
-        }
-        into(apkDir)
+//        group = 'build'
+//        description = "复制一个sample-app-plugin-${buildType}.apk用于测试目的"
+//        from(apkDir) {
+//            include("sample-app-plugin-${buildType}.apk")
+//            rename { "sample-app-plugin-${buildType}2.apk" }
+//        }
+//        into(apkDir)
 
     }.dependsOn(":sample-app:assemblePlugin${buildType.capitalize()}")
 }

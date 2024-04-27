@@ -59,7 +59,7 @@ def gitShortRev() {
 }
 
 def setScm(scm) {
-    scm.appendNode('connection', "https://github.com/${System.getenv("GITHUB_ACTOR")}/Shadow.git")
+    scm.appendNode('connection', "https://github.com/dhs964057117/Shadow.git")
 
     def commit
     if ("${System.env.CI}".equalsIgnoreCase("true")) {
@@ -67,7 +67,7 @@ def setScm(scm) {
     } else {
         commit = gitShortRev()
     }
-    scm.appendNode('url', "https://github.com/${System.getenv("GITHUB_ACTOR")}/Shadow/commit/$commit")
+    scm.appendNode('url', "https://github.com/dhs964057117/Shadow/commit/$commit")
 }
 
 def setGeneratePomFileAndDepends(publicationName) {
@@ -85,12 +85,12 @@ def sourceJar(String name, String path) {
         description = "package ${name} source to jar"
         from "$path/src/main/java"
         from "$path/src/main/kotlin"
-        destinationDir = file("$path/build/libs/")
-        classifier = 'sources'
+        destinationDirectory.set(file("$path/build/libs/"))
+        getArchiveClassifier().set('sources')
     }
 }
 
-def publicationVersion = project.ARTIFACT_VERSION
+def publicationVersion = "1.0.1"
 def coreGroupId = 'com.tencent.shadow.core'
 def corePath = 'projects/sdk/core'
 def dynamicGroupId = 'com.tencent.shadow.dynamic'
@@ -453,18 +453,34 @@ publishing {
                 useLocalCredential = true
             }
         }
-
-        if (!useLocalCredential && "${System.env.CI}".equalsIgnoreCase("true")) {
-            maven {
-                name = "GitHubPackages"
-                credentials {
-                    username = System.getenv("GITHUB_ACTOR")
-                    password = System.getenv("GITHUB_TOKEN")
-                }
-                url "https://maven.pkg.github.com/" + "${System.env.GITHUB_REPOSITORY}".toLowerCase()
+//        maven {url "file://D:/maven-repository"}
+//        if (!useLocalCredential && "${System.env.CI}".equalsIgnoreCase("true")) {
+//            maven {
+//                name = "GitHubPackages"
+//                credentials {
+//                    username = System.getenv("GITHUB_ACTOR")
+//                    password = System.getenv("GITHUB_TOKEN")
+//                }
+//                url "https://maven.pkg.github.com/" + "${System.env.GITHUB_REPOSITORY}".toLowerCase()
+//            }
+//        } else {
+//            mavenLocal()
+//        }
+//        maven {
+//            name = "GitHubPackages"
+//            url "https://github.com/dhs964057117/maven-repository/blob/main/"
+//            credentials {
+//                username = "dhs964057117"
+//                password = "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"
+//            }
+//        }
+        maven {
+            name = "GitHubPackages"
+            url "https://maven.pkg.github.com/dhs964057117/Shadow/packages/"
+            credentials {
+                username = "dhs964057117"
+                password = "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"
             }
-        } else {
-            mavenLocal()
         }
     }
 }
