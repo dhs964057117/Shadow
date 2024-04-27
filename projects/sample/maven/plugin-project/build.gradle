@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.shadow_version = '1.0.0'
+    ext.shadow_version = '1.0.1-add-log'
     repositories {
 //        if (!System.getenv().containsKey("DISABLE_TENCENT_MAVEN_MIRROR")) {
 //            maven { url 'https://mirrors.tencent.com/nexus/repository/maven-public/' }
@@ -13,7 +13,12 @@ buildscript {
 //        maven {
 //            url "https://raw.githubusercontent.com/dhs964057117/maven-repository/main"
 //        }
-
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven {
+            url "https://jitpack.io"
+        }
         maven {
             name = "GitHubPackages"
             url "https://maven.pkg.github.com/dhs964057117/Shadow/packages"
@@ -50,6 +55,12 @@ allprojects {
 //                password = '\u0067hp_s3VOOZnLf1bTyvHWblPfaessrVYyEU4JdNbs'
 //            }
 //        }
+        maven { url 'https://maven.aliyun.com/repository/google' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/gradle-plugin' }
+        maven {
+            url "https://jitpack.io"
+        }
         mavenLocal()
         maven {
             name = "GitHubPackages"

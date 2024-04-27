@@ -5,11 +5,11 @@ import android.util.Log;
 
 import androidx.activity.ComponentActivity;
 
-public class MainActivity extends ComponentActivity {
+public class DetailActivity extends ComponentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("Test", "MainActivity" + getIntent().getExtras());
+        Log.d("Test", "DetailActivity" + getIntent().getExtras());
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_detail);
     }
 }

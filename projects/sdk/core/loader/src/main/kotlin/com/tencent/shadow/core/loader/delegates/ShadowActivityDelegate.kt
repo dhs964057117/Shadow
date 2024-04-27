@@ -27,6 +27,7 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.WindowManager
 import com.tencent.shadow.coding.java_build_config.BuildConfig
@@ -99,6 +100,7 @@ open class ShadowActivityDelegate(private val mDI: DI) : GeneratedShadowActivity
         mBundleForPluginLoader = bundleForPluginLoader
         bundleForPluginLoader.classLoader = this.javaClass.classLoader
         val pluginActivityClassName = bundleForPluginLoader.getString(CM_CLASS_NAME_KEY)!!
+        Log.d("Test", "pluginActivityClassName:" + pluginActivityClassName)
         val pluginActivityInfo: PluginManifest.ActivityInfo =
             bundleForPluginLoader.getParcelable(CM_ACTIVITY_INFO_KEY)!!
         mPluginActivityInfo = pluginActivityInfo

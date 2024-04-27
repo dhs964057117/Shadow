@@ -3,7 +3,7 @@ apply plugin: 'com.tencent.shadow.plugin'
 
 android {
     namespace "com.tencent.shadow.sample.plugin"
-    compileSdkVersion 30
+    compileSdkVersion 34
     defaultConfig {
         applicationId "com.tencent.shadow.sample.plugin"
         minSdkVersion 16
@@ -38,6 +38,7 @@ dependencies {
     //Shadow Transform后业务代码会有一部分实际引用runtime中的类
     //如果不以compileOnly方式依赖，会导致其他Transform或者Proguard找不到这些类
     pluginCompileOnly "com.tencent.shadow.core:runtime:$shadow_version"
+    implementation("androidx.activity:activity:1.6.0")
 }
 
 //这段buildscript配置的dependencies是为了apply plugin: 'com.tencent.shadow.plugin'能找到实现
@@ -85,11 +86,12 @@ shadow {
                 runtimeApkConfig = new Tuple2('sample-runtime-debug.apk', ':sample-runtime:assembleDebug')
                 pluginApks {
                     pluginApk1 {
-                        businessName = 'sample-plugin'//businessName相同的插件，context获取的Dir是相同的。businessName留空，表示和宿主相同业务，直接使用宿主的Dir。
+                        businessName = 'sample-plugin'
+//businessName相同的插件，context获取的Dir是相同的。businessName留空，表示和宿主相同业务，直接使用宿主的Dir。
                         partKey = 'sample-plugin'
                         buildTask = 'assemblePluginDebug'
                         name = 'plugin-app-plugin-debug.apk'
-                        apkPath = 'plugin-app/build/outputs/apk/plugin/debug/plugin-app-plugin-debug.apk'
+                        apkPath = 'plugin-app/build/intermediates/apk/plugin/debug/plugin-app-plugin-debug.apk'
                     }
                 }
             }

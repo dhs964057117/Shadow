@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.*;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,6 +48,7 @@ public class SamplePluginManager extends FastPluginManager {
 
     @Override
     public void enter(final Context context, long fromId, Bundle bundle, final EnterCallback callback) {
+        Log.d("Test action:", "fromId:" + fromId + "bundle: " + bundle);
         if (fromId == Constant.FROM_ID_START_ACTIVITY) {
             bundle.putString(Constant.KEY_PLUGIN_ZIP_PATH, "/data/local/tmp/plugin-debug.zip");
             bundle.putString(Constant.KEY_PLUGIN_PART_KEY, "sample-plugin");
@@ -63,6 +65,7 @@ public class SamplePluginManager extends FastPluginManager {
         final String pluginZipPath = bundle.getString(Constant.KEY_PLUGIN_ZIP_PATH);
         final String partKey = bundle.getString(Constant.KEY_PLUGIN_PART_KEY);
         final String className = bundle.getString(Constant.KEY_ACTIVITY_CLASSNAME);
+        final String action = bundle.getString("KEY_ACTIVITY_ACTION");
         if (className == null) {
             throw new NullPointerException("className == null");
         }
@@ -80,6 +83,9 @@ public class SamplePluginManager extends FastPluginManager {
                     InstalledPlugin installedPlugin
                             = installPlugin(pluginZipPath, null, true);//这个调用是阻塞的
                     Intent pluginIntent = new Intent();
+                    if (!TextUtils.isEmpty(action)) {
+                        pluginIntent.setAction(action);
+                    }
                     pluginIntent.setClassName(
                             context.getPackageName(),
                             className

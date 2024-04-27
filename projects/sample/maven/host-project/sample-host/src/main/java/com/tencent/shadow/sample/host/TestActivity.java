@@ -2,6 +2,7 @@ package com.tencent.shadow.sample.host;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -13,7 +14,7 @@ import com.tencent.shadow.dynamic.host.EnterCallback;
 import com.tencent.shadow.dynamic.host.PluginManager;
 import com.tencent.shadow.sample.introduce_shadow_lib.InitApplication;
 
-public class MainActivity extends ComponentActivity {
+public class TestActivity extends ComponentActivity {
 
     public static final int FROM_ID_START_ACTIVITY = 1001;
     public static final int FROM_ID_CALL_SERVICE = 1002;
@@ -21,7 +22,8 @@ public class MainActivity extends ComponentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.d("Test action:", "" + getIntent().getAction());
+        Log.d("Test action:", "" + getIntent().getExtras());
         final LinearLayout linearLayout = new LinearLayout(this);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
 
@@ -36,18 +38,17 @@ public class MainActivity extends ComponentActivity {
                 v.setEnabled(false);//防止点击重入
 
                 PluginManager pluginManager = InitApplication.getPluginManager();
-                Intent intent = new Intent("android.intent.action.detail")
-                        .putExtra("KEY_ACTIVITY_ACTION", "android.intent.action.detail")
-                        .putExtra("KEY_ACTIVITY_CLASSNAME","android.intent.action.detail");
-                pluginManager.enter(MainActivity.this, FROM_ID_START_ACTIVITY, intent.getExtras(), new EnterCallback() {
+                Intent intent = new Intent("android.intent.action.detal").putExtra("actions", "android.intent.action.detal")
+                        .putExtra("KEY_ACTIVITY_CLASSNAME","android.intent.action.detal");
+                pluginManager.enter(TestActivity.this, FROM_ID_START_ACTIVITY, intent.getExtras(), new EnterCallback() {
                     @Override
                     public void onShowLoadingView(View view) {
-                        MainActivity.this.setContentView(view);//显示Manager传来的Loading页面
+                        TestActivity.this.setContentView(view);//显示Manager传来的Loading页面
                     }
 
                     @Override
                     public void onCloseLoadingView() {
-                        MainActivity.this.setContentView(linearLayout);
+                        TestActivity.this.setContentView(linearLayout);
                     }
 
                     @Override
@@ -69,7 +70,7 @@ public class MainActivity extends ComponentActivity {
                 v.setEnabled(false);//防止点击重入
 
                 PluginManager pluginManager = InitApplication.getPluginManager();
-                pluginManager.enter(MainActivity.this, FROM_ID_CALL_SERVICE, null, null);
+                pluginManager.enter(TestActivity.this, FROM_ID_CALL_SERVICE, null, null);
             }
         });
 
