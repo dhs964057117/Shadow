@@ -22,6 +22,7 @@ import android.content.ComponentName
 import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
+import android.util.Log
 import android.util.Pair
 import com.tencent.shadow.coding.java_build_config.BuildConfig
 import com.tencent.shadow.core.load_parameters.LoadParameters
@@ -147,7 +148,8 @@ abstract class ComponentManager : PluginComponentLauncher {
     }
 
     override fun convertPluginActivityIntent(pluginIntent: Intent): Intent {
-        return if (pluginIntent.isPluginComponent()) {
+        Log.d("Test convert", "pluginIntent:" + pluginIntent)
+        return if (pluginIntent.isPluginComponent(true)) {
             pluginIntent.toActivityContainerIntent()
         } else {
             pluginIntent
