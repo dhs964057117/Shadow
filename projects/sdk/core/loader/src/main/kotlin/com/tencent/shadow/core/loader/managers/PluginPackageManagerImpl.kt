@@ -22,6 +22,7 @@ import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.*
+import android.os.Build
 import com.tencent.shadow.core.runtime.PluginPackageManager
 
 @SuppressLint("WrongConstant")
@@ -46,6 +47,12 @@ internal class PluginPackageManagerImpl(
                 packageInfo.applicationInfo = getPluginApplicationInfo(flags)
                 packageInfo.permissions = hostPackageInfo.permissions
                 packageInfo.requestedPermissions = hostPackageInfo.requestedPermissions
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+                    packageInfo.longVersionCode = hostPackageInfo.longVersionCode
+                } else {
+                    packageInfo.versionCode = hostPackageInfo.versionCode
+                }
+                packageInfo.versionName = hostPackageInfo.versionName
             }
             packageInfo
         } else {
