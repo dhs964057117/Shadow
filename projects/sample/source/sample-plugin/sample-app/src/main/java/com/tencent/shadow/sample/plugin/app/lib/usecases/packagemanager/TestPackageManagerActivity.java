@@ -19,10 +19,12 @@
 package com.tencent.shadow.sample.plugin.app.lib.usecases.packagemanager;
 
 import android.content.ComponentName;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -31,6 +33,8 @@ import android.widget.TextView;
 import com.tencent.shadow.sample.plugin.app.lib.R;
 import com.tencent.shadow.sample.plugin.app.lib.gallery.BaseActivity;
 import com.tencent.shadow.sample.plugin.app.lib.gallery.cases.entity.UseCase;
+
+import java.util.List;
 
 public class TestPackageManagerActivity extends BaseActivity {
 
@@ -90,6 +94,16 @@ public class TestPackageManagerActivity extends BaseActivity {
             mTvTextView.setText("packageInfo versionName:" + packageInfo.versionName
                     + "\nversionCode:" + packageInfo.versionCode);
         } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void queryIntentActivities(View view) {
+        try {
+            List<ResolveInfo> resolveInfos= getPackageManager().queryIntentActivities(new Intent("com.intent.action.testQueryIntent"), 0);
+            mTvTextView.setText("packageInfo versionName:" + resolveInfos.size()
+                    + "\nversionCode:" + resolveInfos);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

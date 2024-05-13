@@ -18,48 +18,56 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="20dp"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="20dp">
 
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_gravity="top"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
         android:onClick="getApplicationInfo"
-        android:text="getApplicationInfo"
-        android:layout_gravity="top" />
+        android:text="getApplicationInfo" />
 
 
     <Button
         android:id="@+id/button1"
-        android:layout_width="wrap_content"
+        android:layout_gravity="top"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
         android:onClick="getActivityInfo"
-        android:text="getActivityInfo"
-        android:layout_gravity="top" />
+        android:text="getActivityInfo" />
 
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_gravity="top"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
         android:onClick="getPackageInfo"
         android:text="getPackageInfo" />
 
+    <Button
+        android:layout_gravity="top"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:onClick="queryIntentActivities"
+        android:text="queryIntentActivities" />
 
     <TextView
         android:id="@+id/text"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:textColor="@android:color/white"
 
         />

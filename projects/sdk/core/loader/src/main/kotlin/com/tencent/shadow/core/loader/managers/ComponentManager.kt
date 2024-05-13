@@ -275,6 +275,15 @@ abstract class ComponentManager : PluginComponentLauncher {
         }
     }
 
+    fun findActivityInfos(action: String?): List<ActivityInfo?> {
+        action ?: return emptyList()
+        return pluginActivityInfoMap.values.filter {
+            !it.actions.isNullOrEmpty() && it.actions.contains(
+                action
+            )
+        }
+    }
+
     /**
      * 调用前必须先调用isPluginComponent判断Intent确实一个插件内的组件
      */

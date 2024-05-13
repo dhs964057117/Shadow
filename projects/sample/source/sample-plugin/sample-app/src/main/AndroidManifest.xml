@@ -15,7 +15,12 @@
             android:value="test_value" />
 
 
-        <activity android:name="com.tencent.shadow.sample.plugin.app.lib.usecases.activity.TestActivityReCreate" />
+        <activity android:name="com.tencent.shadow.sample.plugin.app.lib.usecases.activity.TestActivityReCreate" >
+            <intent-filter>
+                <action android:name="com.intent.action.testQueryIntent"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
         <activity android:name="com.tencent.shadow.sample.plugin.app.lib.usecases.activity.TestActivitySetTheme" />
         <activity android:name="com.tencent.shadow.sample.plugin.app.lib.usecases.activity.TestActivityOptionMenu" />
 

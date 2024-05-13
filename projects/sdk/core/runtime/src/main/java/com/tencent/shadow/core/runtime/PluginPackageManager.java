@@ -31,4 +31,6 @@ public interface PluginPackageManager {
     ResolveInfo resolveService(Intent intent, int flags);
 
     String getArchiveFilePath();
+
+    List<ResolveInfo> queryIntentActivities(Intent intent, int flags);
 }

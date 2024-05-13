@@ -86,4 +86,7 @@ public class PackageManagerInvokeRedirect {
         return getPluginPackageManager(classLoaderOfInvokeCode).resolveService(intent, flags);
     }
 
+    public static List<ResolveInfo> queryIntentActivities(ClassLoader classLoaderOfInvokeCode, Intent intent, int flags) {
+        return getPluginPackageManager(classLoaderOfInvokeCode).queryIntentActivities(intent, flags);
+    }
 }

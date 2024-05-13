@@ -21,7 +21,14 @@ package com.tencent.shadow.core.loader.managers
 import android.annotation.SuppressLint
 import android.content.ComponentName
 import android.content.Intent
-import android.content.pm.*
+import android.content.pm.ActivityInfo
+import android.content.pm.ApplicationInfo
+import android.content.pm.ComponentInfo
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
+import android.content.pm.ProviderInfo
+import android.content.pm.ResolveInfo
+import android.content.pm.ServiceInfo
 import android.os.Build
 import com.tencent.shadow.core.runtime.PluginPackageManager
 
@@ -124,6 +131,26 @@ internal class PluginPackageManagerImpl(
     }
 
     override fun getArchiveFilePath() = pluginArchiveFilePath
+    override fun queryIntentActivities(intent: Intent, flags: Int): List<ResolveInfo> {
+        val resolveInfoList = mutableListOf<ResolveInfo>()
+        val action = intent.action
+        if (action != null) {
+            hostPackageManager.queryIntentActivities(intent, flags).let {
+                resolveInfoList.addAll(it)
+            }
+            val activityInfos = componentManager.findActivityInfos(action)
+            if (activityInfos.isNotEmpty()) {
+                activityInfos.map {
+                    val resolveInfo = ResolveInfo()
+                    resolveInfo.activityInfo = it
+                    resolveInfo
+                }.let { it ->
+                    resolveInfoList.addAll(it)
+                }
+            }
+        }
+        return resolveInfoList
+    }
 
     private fun <T : ComponentInfo> getComponentInfo(
         component: ComponentName,
